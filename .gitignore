@@ -1,0 +1,59 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Patient data must never enter the repo, under any name
+data/patient/
+data/phi/
+**/*phi*.csv
+**/*phi*.jsonl
+
+# Model weights, checkpoints and caches
+models/*
+!models/.gitkeep
+checkpoints/
+.cache/
+*.safetensors
+*.gguf
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.onnx
+*.faiss
+
+# Run outputs: renders, raw model output and logs per configuration
+runs/*
+!runs/.gitkeep
+wandb/
+*.log
+
+# Large or regenerable data (prompts, checklists and ratings stay tracked)
+data/ground_truth/*
+!data/ground_truth/.gitkeep
+data/icons/*
+!data/icons/.gitkeep
+data/training/*
+!data/training/.gitkeep
+
+# External code, cloned at the commit noted in the README
+third_party/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+docs/*.pdf

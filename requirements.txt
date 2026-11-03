@@ -1,0 +1,70 @@
+# Infographic Generation experiment. Python 3.11+.
+# Install PyTorch first for your machine (see README), then: pip install -r requirements.txt
+# Exact versions for a given machine are recorded in requirements-lock-*.txt.
+
+# --- Core ---
+numpy>=2.0
+pandas>=2.2
+scipy>=1.13
+scikit-learn>=1.5
+pyyaml>=6.0
+pydantic>=2.8
+python-dotenv>=1.0
+tqdm>=4.66
+matplotlib>=3.9
+seaborn>=0.13
+ipykernel>=6.29
+
+# --- Harness: rendering and HTML handling ---
+# After install, run: playwright install chromium
+playwright>=1.50
+pillow>=10.4
+beautifulsoup4>=4.12
+lxml>=5.0
+opencv-python-headless>=4.10
+
+# --- Metrics ---
+# 1. DOM-tree similarity (TreeBLEU, normalized tree edit distance)
+apted>=1.0.3
+nltk>=3.9
+# 2. Perceptual similarity (DINOv2 comes through transformers)
+open-clip-torch>=2.26
+# 3. Design2Code Visual Score (third_party/Design2Code, see README)
+openai-clip>=1.0.1
+colormath>=3.0.0
+scikit-image>=0.24
+# 4. OCR text fidelity
+easyocr>=1.7.2
+rapidfuzz>=3.9
+
+# --- Setup 3: icon retrieval ---
+sentence-transformers>=3.0
+faiss-cpu>=1.8
+
+# --- Local models ---
+torch>=2.6
+torchvision>=0.21
+transformers>=5.0
+accelerate>=1.0
+safetensors>=0.4
+sentencepiece>=0.2
+protobuf>=5.0
+huggingface_hub>=0.30
+bitsandbytes>=0.45
+diffusers>=0.36
+gguf>=0.10
+# Serving on the H100 server. vLLM has no Windows wheels.
+vllm>=0.10; sys_platform == "linux"
+
+# --- Setup 6: SFT, DPO and GRPO training ---
+peft>=0.14
+trl>=0.20
+datasets>=3.0
+
+# --- Frontier reference (de-identified test prompts only) ---
+anthropic>=0.40
+openai>=1.50
+google-genai>=1.0
+
+# --- Dev ---
+pytest>=8.0
