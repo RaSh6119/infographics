@@ -57,3 +57,7 @@ desktop.ini
 .vscode/
 .idea/
 docs/*.pdf
+
+# Source document: review comments carry reviewer names
+data/prompts/source/
+data/prompts/prompts.jsonl
