@@ -39,7 +39,7 @@ runs/*
 wandb/
 *.log
 
-# Large or regenerable data (prompts, checklists and ratings stay tracked)
+# Large or regenerable data (prompts and checklists stay tracked)
 data/ground_truth/*
 !data/ground_truth/.gitkeep
 data/icons/*
@@ -48,6 +48,9 @@ data/training/*
 !data/training/.gitkeep
 # Generated pilot images sent for clinician review
 data/images_test/
+# Clinician ratings and comments are their professional judgements, so they stay private
+data/human_ratings/*
+!data/human_ratings/.gitkeep
 
 # External code, cloned at the commit noted in the README
 third_party/

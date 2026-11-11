@@ -9,13 +9,14 @@ five automated metrics. The full design is in [docs/](docs/).
 configs/            Run configs. Pin model checkpoints and quantization here.
   models/ setups/ metrics/
 data/
-  prompts/          Test set from previous students' work, tagged by infographic type
-  ground_truth/     Reference infographics, for metrics 1-3 (not tracked)
+  prompts/          Dev prompts, plus previous students' prompts kept for the record
+  ground_truth/     Reference infographics used as a style guide (not tracked)
+  images_test/      Pilot images sent for clinician review (not tracked)
   few_shot/         The 3 fixed examples for setup 2
   checklists/       Yes/no questions per prompt, for metric 5
   icons/            Health Icons and the retrieval index (not tracked)
   training/         Synthetic prompts, SFT data and DPO pairs for setup 6 (not tracked)
-  human_ratings/    Human ratings used to validate the metrics
+  human_ratings/    Clinician ratings and comments (not tracked)
 src/infographics/
   harness/          Prompt loader, Playwright renderer, run logging
   backends/         Local LLMs, local image models, frontier APIs
