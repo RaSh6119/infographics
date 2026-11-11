@@ -46,6 +46,8 @@ data/icons/*
 !data/icons/.gitkeep
 data/training/*
 !data/training/.gitkeep
+# Generated pilot images sent for clinician review
+data/images_test/
 
 # External code, cloned at the commit noted in the README
 third_party/
