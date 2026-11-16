@@ -1,0 +1,14 @@
+# Gemma 4 E4B served by Ollama on the laptop (RTX 4050, 6 GB). Ollama speaks the OpenAI API.
+# Setup: install Ollama, set OLLAMA_CONTEXT_LENGTH=16384 (user environment variable) and restart
+# Ollama, so long pages aren't cut off; then `ollama pull gemma4:e4b`.
+name: gemma4-e4b
+backend: openai_compatible
+model: gemma4:e4b
+# Ollama tags can be updated in place, so this pins the digest `ollama pull` fetched (Ollama 0.40.16).
+# `ollama list` shows its first 12 characters: dc35e8d9c606.
+checkpoint: gemma4:e4b@sha256:dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c
+quantization: Q4_K_M (Ollama default for gemma4:e4b)
+base_url: http://localhost:11434/v1
+max_tokens: 12000
+extra_body:
+  reasoning_effort: none   # thinking off, as for Qwen3.5-9B, so the two local models match

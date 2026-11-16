@@ -1,0 +1,13 @@
+# Qwen3.5-9B served by vLLM on the H100 workstation. See docs/workstation_runbook.md.
+name: qwen3.5-9b
+backend: openai_compatible
+model: Qwen/Qwen3.5-9B
+# Hugging Face commit, pinned for reproducibility. vLLM must be started with the same --revision.
+checkpoint: c202236235762e1c871ad0ccb60c8ee5ba337b9a
+quantization: null  # full BF16 weights
+base_url: http://localhost:8000/v1
+max_tokens: 16384
+extra_body:
+  # Qwen3.5 thinks before answering by default. Off, so all models answer directly.
+  chat_template_kwargs:
+    enable_thinking: false

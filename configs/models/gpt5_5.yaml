@@ -1,0 +1,14 @@
+# GPT-5.5 through the OpenAI API. Needs OPENAI_API_KEY in .env.
+# With reasoning on, GPT-5.5 only accepts its default temperature (1), so temperature is null.
+# The dated model name is a fixed snapshot, so it doubles as the checkpoint.
+name: gpt-5.5
+backend: openai_compatible
+model: gpt-5.5-2026-04-23
+checkpoint: gpt-5.5-2026-04-23
+quantization: null
+api_key_env: OPENAI_API_KEY
+temperature: null
+max_tokens_param: max_completion_tokens
+max_tokens: 32000          # includes reasoning tokens
+extra_body:
+  reasoning_effort: medium # pinned so a change in OpenAI's default can't change results

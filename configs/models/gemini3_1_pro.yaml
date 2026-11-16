@@ -1,0 +1,12 @@
+# Gemini 3.1 Pro through Google's OpenAI-compatible endpoint. Needs GEMINI_API_KEY in .env.
+# Accepts the plan's temperature (0.2) but not seed. "preview" models can be updated by Google,
+# so the checkpoint records the name plus the date the runs were made.
+name: gemini-3.1-pro
+backend: openai_compatible
+model: gemini-3.1-pro-preview
+checkpoint: gemini-3.1-pro-preview (as served 2026-11)
+quantization: null
+base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+api_key_env: GEMINI_API_KEY
+send_seed: false
+max_tokens: 32000          # includes thinking tokens

@@ -16,10 +16,11 @@ def write(tmp_path, *records):
     return path
 
 
-def test_dev_set_loads_with_one_prompt_of_each_type():
+def test_dev_set_loads_with_every_type_plus_the_pilot_prompt():
     prompts = load_prompts(DATA / "dev_set.jsonl")
-    assert len(prompts) == 5
+    assert len(prompts) == 6
     assert {prompt.type for prompt in prompts} == INFOGRAPHIC_TYPES
+    assert prompts[-1].id == "pilot_list_001"
 
 
 def test_students_prompts_are_not_accepted_as_a_test_set():

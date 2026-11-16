@@ -46,6 +46,9 @@ data/icons/*
 !data/icons/.gitkeep
 data/training/*
 !data/training/.gitkeep
+# Setup 2's reference pages come from the reference PDF, which isn't ours to publish
+data/few_shot/*
+!data/few_shot/.gitkeep
 # Generated pilot images sent for clinician review
 data/images_test/
 # Clinician ratings and comments are their professional judgements, so they stay private
@@ -66,3 +69,8 @@ docs/*.pdf
 # Source document: review comments carry reviewer names
 data/prompts/source/
 data/prompts/prompts.jsonl
+# Prompts condensed from clinician-written content, which isn't ours to publish yet
+data/prompts/clinic_set.jsonl
+docs/findings/*clinic*
+results/*clinic*
+results/review/

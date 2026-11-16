@@ -1,0 +1,11 @@
+# Claude Opus 5.5 through the Anthropic API. Needs ANTHROPIC_API_KEY in .env.
+# It always thinks and rejects temperature, so temperature is null; effort controls how much it
+# thinks. Effort is pinned because Anthropic's default could change.
+name: claude-opus-5.5
+backend: anthropic
+model: claude-opus-5-5
+checkpoint: claude-opus-5-5
+quantization: null
+temperature: null
+effort: medium
+max_tokens: 32000          # includes thinking tokens
