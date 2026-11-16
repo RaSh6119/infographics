@@ -113,4 +113,4 @@ def test_few_shot_explains_missing_images(monkeypatch, tmp_path):
 
 
 def test_setups_registered():
-    assert set(SETUPS) == {"s1_zero_shot", "s2_few_shot"}
+    assert set(SETUPS) == {"s1_zero_shot", "s2_few_shot", "s3_rag_icons"}

@@ -36,7 +36,10 @@ def run_setup(
     samples: int,
     temperature: float | None,
     report: Callable[[str], None] = print,
+    postprocess: Callable[[Prompt, str], tuple[str, dict, list[Failure]]] | None = None,
 ) -> RunSummary:
+    """postprocess, if given, rewrites the extracted HTML before rendering (setup 3 inlines its
+    icons there) and returns extra fields to log plus any failures it found."""
     summary = RunSummary()
     consecutive_errors = 0
     total = len(prompts) * samples
@@ -64,10 +67,15 @@ def run_setup(
             consecutive_errors = 0
 
             html = extract_html(generation.text)
+            post_extra: dict = {}
+            post_failures: list[Failure] = []
+            if html is not None and postprocess is not None:
+                html, post_extra, post_failures = postprocess(prompt, html)
             if html is None:
                 render = RenderResult(failures=[Failure("no_html", "the reply contained no HTML")])
             else:
                 render = renderer.render(html, logger.render_path(prompt.id, sample))
+                render.failures.extend(post_failures)
 
             logger.log_sample(
                 prompt,
@@ -82,6 +90,7 @@ def run_setup(
                 extra={
                     "finish_reason": generation.finish_reason,
                     "seed": sample if backend.sends_seed else None,
+                    **post_extra,
                 },
             )
             summary.logged += 1

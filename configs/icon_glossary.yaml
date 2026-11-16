@@ -1,0 +1,56 @@
+# Setup 3 retrieval glossary: terms a general text-embedding model can't connect to an icon.
+# When a label contains a term (whole word, case-insensitive), the words after it are added to
+# that label's search query. Every entry is a design decision: keep it short and reviewable, and
+# list it in the methods. Retrieval is identical for every model, so this affects all of them alike.
+#
+# Tuned on the dev prompts only (data/prompts/dev_set.jsonl), then FROZEN on 2026-11-16, before
+# retrieving icons for any other prompt set, so other sets' retrieval is not tuned to them.
+# Don't edit it for the clinic or test prompts; a change means a new version and rerunning setup 3.
+# Clocks, arrows and the "no" sign come from the 10 supplementary Material Symbols icons.
+
+# Medicines
+PrEP: pill, tablet, medication, drug
+PEP: pill, tablet, medication, drug
+pill: pill, tablet, medication, drug
+pills: pill, tablet, medication, drug
+Truvada: pill, tablet, medication, drug
+Descovy: pill, tablet, medication, drug
+Apretude: injection, syringe
+Yeztugo: injection, syringe
+injectable: injection, syringe
+injections: injection, syringe
+full course: pills, medication, checkmark
+
+# HIV, testing and care
+HIV: HIV, ribbon
+U=U: HIV negative, undetectable
+STI: test tube, laboratory test
+tested: HIV self test, rapid diagnostic test
+testing: HIV self test, rapid diagnostic test
+kidney: kidney
+labs: test tube, laboratory
+lab: test tube, laboratory
+insurance: insurance card, money
+insurances: insurance card, money
+clinician: doctor, health worker
+clinic: clinic, hospital
+healthcare provider: doctor, health worker, injection
+side effects: nausea, sick person
+
+# Risk and exposure
+lower risk: arrow down, decrease, shield with checkmark, protection
+risk: health shield, risk analysis
+sex: couple, people, condom
+partners: couple, people
+condoms: condom
+needles: syringe, needle
+needle: syringe, needle
+
+# Time and place
+as soon as possible: alarm clock, urgent
+hours: clock, time
+days: calendar
+months: calendar, appointment
+home: home, house
+# Negation ("no", "not", "don't") is handled in code, not here: the object is searched for without
+# the negating word, and the "no" sign is added as an extra candidate (see rag/retrieve.py).

@@ -5,6 +5,11 @@ build_index() turns its metadata and filled SVGs into one self-contained index f
 retrieval and inlining never depend on the clone's layout.
 
 Each icon draws with fill="currentColor", so a page recolours it with the CSS `color` property.
+
+Health Icons has no general symbols such as clocks, arrows or a "no" sign, so 10 supplementary
+icons from Google's Material Symbols (Apache 2.0, rounded, filled) are added in their own category,
+"supplementary". They are generic, not chosen for particular prompts; their SVGs, licence and
+notice are in data/icons/supplementary/.
 """
 
 from __future__ import annotations
@@ -21,6 +26,23 @@ REPO_URL = "https://github.com/resolvetosavelives/healthicons"
 COMMIT = "2080c1b40e4829f2f4217e03bc22908b4e402f6b"
 STYLE = "filled"  # solid shapes, like the reference PDF; the library also has "outline"
 
+SUPPLEMENTARY_DIR = ROOT / "data" / "icons" / "supplementary"
+SUPPLEMENTARY_SOURCE = "https://github.com/google/material-design-icons"
+SUPPLEMENTARY_COMMIT = "10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7"
+# (file in SUPPLEMENTARY_DIR, our id, title, tags). Material Symbols names in the file names.
+SUPPLEMENTARY = [
+    ("schedule.svg", "supplementary/clock", "Clock", ("Time", "Hours", "Clock", "Schedule")),
+    ("hourglass_bottom.svg", "supplementary/hourglass", "Hourglass", ("Time", "Waiting", "Duration", "Timer")),
+    ("alarm.svg", "supplementary/alarm-clock", "Alarm Clock", ("Urgent", "Reminder", "Time", "Alarm")),
+    ("arrow_downward.svg", "supplementary/arrow-down", "Arrow Down", ("Decrease", "Lower", "Reduce", "Down")),
+    ("arrow_upward.svg", "supplementary/arrow-up", "Arrow Up", ("Increase", "Higher", "Up")),
+    ("arrow_forward.svg", "supplementary/arrow-right", "Arrow Right", ("Next", "Step", "Forward", "Then")),
+    ("percent.svg", "supplementary/percent", "Percent", ("Percentage", "Rate", "Statistic")),
+    ("block.svg", "supplementary/no-sign", "No Sign", ("No", "Not allowed", "Prohibited", "Avoid")),
+    ("verified_user.svg", "supplementary/shield-check", "Shield with Checkmark", ("Protection", "Protected", "Safe")),
+    ("event_available.svg", "supplementary/calendar-check", "Calendar with Checkmark", ("Appointment", "Scheduled", "Completed")),
+]
+
 # Tags like "dhis2:war" are IDs for another system, not words describing the icon.
 _MACHINE_TAG = re.compile(r"^[a-z0-9]+:")
 
@@ -31,7 +53,8 @@ class Icon:
     title: str
     category: str
     tags: tuple[str, ...]
-    svg: str  # the full <svg> element, 48 x 48 viewBox
+    svg: str  # the full <svg> element with its viewBox
+    source: str = "healthicons"  # or "material-symbols" for the supplementary icons
 
     def description(self) -> str:
         """What retrieval matches against: the title plus its tags."""
@@ -48,7 +71,18 @@ def clean_svg(markup: str) -> str:
     return re.sub(r"\s+", " ", f"{head}>{rest}").replace("> <", "><")
 
 
-def build_index(repo_dir: Path = REPO_DIR) -> dict:
+def supplementary_icons(directory: Path = SUPPLEMENTARY_DIR) -> list[Icon]:
+    """The Material Symbols icons, made to draw in currentColor like Health Icons."""
+    icons = []
+    for file, icon_id, title, tags in SUPPLEMENTARY:
+        markup = (directory / file).read_text(encoding="utf-8")
+        markup = re.sub(r"<path\b(?![^>]*\bfill=)", '<path fill="currentColor"', markup)
+        icons.append(Icon(id=icon_id, title=title, category="supplementary", tags=tags,
+                          svg=clean_svg(markup), source="material-symbols"))
+    return icons
+
+
+def build_index(repo_dir: Path = REPO_DIR, supplementary_dir: Path | None = SUPPLEMENTARY_DIR) -> dict:
     icons_dir = repo_dir / "public" / "icons"
     metadata = json.loads((icons_dir / "meta-data.json").read_text(encoding="utf-8"))
     icons = []
@@ -62,14 +96,23 @@ def build_index(repo_dir: Path = REPO_DIR) -> dict:
             tags=tags,
             svg=clean_svg(svg_file.read_text(encoding="utf-8")),
         ))
+    if supplementary_dir is not None:
+        icons += supplementary_icons(supplementary_dir)
     ids = [icon.id for icon in icons]
     if len(ids) != len(set(ids)):
-        raise ValueError("duplicate icon ids in the Health Icons metadata")
+        raise ValueError("duplicate icon ids in the icon index")
     return {
         "source": REPO_URL,
         "commit": COMMIT,
         "style": STYLE,
         "license": "CC0 1.0",
+        "supplementary": None if supplementary_dir is None else {
+            "source": SUPPLEMENTARY_SOURCE,
+            "commit": SUPPLEMENTARY_COMMIT,
+            "style": "Material Symbols Rounded, filled, 48px",
+            "license": "Apache 2.0 (data/icons/supplementary/LICENSE)",
+            "count": len(SUPPLEMENTARY),
+        },
         "icons": [asdict(icon) for icon in icons],
     }
 

@@ -27,7 +27,7 @@ from infographics.harness.prompts import load_prompts  # noqa: E402
 from infographics.harness.renderer import Renderer  # noqa: E402
 from infographics.harness.run_logger import RunLogger  # noqa: E402
 from infographics.harness.runner import run_setup  # noqa: E402
-from infographics.setups.builders import SETUPS, SYSTEM_PROMPT_PATH  # noqa: E402
+from infographics.setups.builders import POSTPROCESSORS, SETUPS, SYSTEM_PROMPT_PATH  # noqa: E402
 
 # The plan's decoding protocol. A model config can set `temperature: null` for models that only
 # accept their default; the temperature actually used is what gets logged.
@@ -75,7 +75,8 @@ def main() -> None:
     print(f"{run_name}: {len(prompts)} prompts x {args.samples} samples")
     with Renderer() as renderer:
         summary = run_setup(
-            prompts, build_messages, backend, renderer, logger, args.samples, temperature
+            prompts, build_messages, backend, renderer, logger, args.samples, temperature,
+            postprocess=POSTPROCESSORS.get(args.setup),
         )
     print(
         f"\nDone: {summary.logged} new, {summary.skipped} already done, "

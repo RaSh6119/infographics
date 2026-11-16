@@ -67,6 +67,24 @@ with this stack.
 
 **Secrets:** copy `.env.example` to `.env` and fill in the keys.
 
+## Running and reviewing
+
+```bash
+# generate: one setup, one model, one prompt set (outputs go to runs/)
+python scripts/run_setup.py --setup s1_zero_shot --model configs/models/gpt5_5.yaml --prompts data/prompts/dev_set.jsonl
+
+# score metric 4 (OCR): official score plus the as-rendered diagnostic
+python scripts/score_runs.py runs/s1_zero_shot__gpt-5.5__dev_set --out results/ocr_gpt_dev.csv
+
+# Word file for review: one page per prompt, models as rows, setups as columns
+npm install                       # once (Node.js 18+), installs the docx library
+node scripts/make_review_doc.js --prompts data/prompts/dev_set.jsonl --out results/review/dev_set.docx
+```
+
+`make_review_doc.js` picks up every model with runs for that prompt set; `--models` limits it (for
+example `--models qwen3.5-9b,gemma4-e4b`), `--title` and `--note` set the cover. The options are
+listed at the top of the script. `results/review/` is gitignored.
+
 ## Known issues
 
 - `colormath` 3.0.0 calls `numpy.asscalar`, which numpy 2 removed, so `delta_e_cie2000` raises

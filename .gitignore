@@ -36,6 +36,10 @@ checkpoints/
 # Run outputs: renders, raw model output and logs per configuration
 runs/*
 !runs/.gitkeep
+# Run archives copied between machines (e.g. qwen_runs.tgz) contain private prompt sets' pages
+*.tgz
+*.tar.gz
+*.zip
 wandb/
 *.log
 
@@ -44,6 +48,12 @@ data/ground_truth/*
 !data/ground_truth/.gitkeep
 data/icons/*
 !data/icons/.gitkeep
+# Setup 3 inputs, committed so every machine uses the same icons: the Health Icons index (CC0) and
+# the saved retrieval per prompt set (icon IDs and label positions only, no prompt text)
+!data/icons/index.json
+!data/icons/retrieved_*.json
+# Supplementary Material Symbols icons (Apache 2.0, with their licence and notice)
+!data/icons/supplementary/
 data/training/*
 !data/training/.gitkeep
 # Setup 2's reference pages come from the reference PDF, which isn't ours to publish
@@ -57,6 +67,9 @@ data/human_ratings/*
 
 # External code, cloned at the commit noted in the README
 third_party/
+
+# Node packages for scripts/make_review_doc.js (npm install)
+node_modules/
 
 # OS and editors
 .DS_Store

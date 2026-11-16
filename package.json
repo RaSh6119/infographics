@@ -1,0 +1,8 @@
+{
+  "name": "infographics-tools",
+  "private": true,
+  "description": "Node tools for the infographics project: scripts/make_review_doc.js builds Word review files.",
+  "dependencies": {
+    "docx": "9.5.1"
+  }
+}

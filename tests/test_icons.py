@@ -32,7 +32,7 @@ def fake_repo(tmp_path):
 
 
 def test_index_keeps_descriptive_tags_only(fake_repo, tmp_path):
-    index = build_index(fake_repo)
+    index = build_index(fake_repo, supplementary_dir=None)
     assert index["license"] == "CC0 1.0" and len(index["commit"]) == 40
     (icon,) = index["icons"]
     assert icon["id"] == "devices/syringe"
@@ -50,9 +50,22 @@ def test_missing_index_says_how_to_build_it(tmp_path):
 
 
 @pytest.mark.skipif(not INDEX_PATH.exists(), reason="icon index is built locally, not in git")
-def test_built_index_has_the_hiv_icons():
+def test_built_index_has_the_hiv_icons_and_the_supplementary_ones():
     icons = load_icons()
-    assert len(icons) == 776
+    assert len(icons) == 776 + 10
     for icon_id in ["conditions/ribbon", "diagnostics/hiv-self_test", "contraceptives/male-condom",
-                    "devices/syringe", "medications/pill-1", "people/person"]:
+                    "devices/syringe", "medications/pill-1", "people/person", "supplementary/clock"]:
         assert 'fill="currentColor"' in icons[icon_id].svg
+    assert icons["supplementary/clock"].source == "material-symbols"
+    assert icons["devices/syringe"].source == "healthicons"
+
+
+def test_supplementary_icons_draw_in_current_colour():
+    from infographics.rag.icons import SUPPLEMENTARY, supplementary_icons
+
+    icons = supplementary_icons()
+    assert len(icons) == len(SUPPLEMENTARY) == 10
+    for icon in icons:
+        assert icon.category == "supplementary"
+        assert 'width="48"' not in icon.svg and 'viewBox="0 -960 960 960"' in icon.svg
+        assert icon.svg.count("<path") == icon.svg.count('fill="currentColor"')

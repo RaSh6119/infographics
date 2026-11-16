@@ -1,0 +1,721 @@
+{
+ "prompts_file": "dev_set.jsonl",
+ "embedding": {
+  "model": "BAAI/bge-small-en-v1.5",
+  "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+  "sentence_transformers": "6.2.0"
+ },
+ "icon_index_commit": "2080c1b40e4829f2f4217e03bc22908b4e402f6b",
+ "glossary_sha256": "00adfddf504dc953eeb9f7d9de6d326194d3f3e66655c75ce8606ef0660ff465",
+ "total_icons": 15,
+ "max_per_label": 3,
+ "excluded_categories": [
+  "typography"
+ ],
+ "prompts": {
+  "dev_stat_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "couple",
+     "people",
+     "condom"
+    ],
+    "icons": [
+     {
+      "id": "contraceptives/contraceptive-voucher",
+      "score": 0.8528
+     },
+     {
+      "id": "contraceptives/female-condom",
+      "score": 0.8442
+     },
+     {
+      "id": "contraceptives/male-condom",
+      "score": 0.8399
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "arrow down",
+     "decrease",
+     "shield with checkmark",
+     "protection",
+     "health shield",
+     "risk analysis"
+    ],
+    "icons": [
+     {
+      "id": "supplementary/shield-check",
+      "score": 0.7484
+     },
+     {
+      "id": "supplementary/arrow-down",
+      "score": 0.7199
+     },
+     {
+      "id": "symbols/health",
+      "score": 0.7178
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "people/pwid",
+      "score": 0.7846
+     },
+     {
+      "id": "contraceptives/contraceptive-injection",
+      "score": 0.7341
+     },
+     {
+      "id": "devices/syringe",
+      "score": 0.6893
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": false,
+    "glossary_terms": [
+     "arrow down",
+     "decrease",
+     "shield with checkmark",
+     "protection",
+     "health shield",
+     "risk analysis"
+    ],
+    "icons": [
+     {
+      "id": "supplementary/shield-check",
+      "score": 0.7156
+     },
+     {
+      "id": "symbols/health",
+      "score": 0.6922
+     },
+     {
+      "id": "ppe/ppe-face-shield-alt",
+      "score": 0.6792
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "objects/prescription-document",
+      "score": 0.6928
+     },
+     {
+      "id": "medications/pill-1",
+      "score": 0.684
+     },
+     {
+      "id": "medications/pills-4",
+      "score": 0.6814
+     }
+    ]
+   }
+  ],
+  "dev_timeline_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "alarm clock",
+     "urgent"
+    ],
+    "icons": [
+     {
+      "id": "supplementary/alarm-clock",
+      "score": 0.8239
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "medications/medicines",
+      "score": 0.7687
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "clock",
+     "time"
+    ],
+    "icons": [
+     {
+      "id": "supplementary/clock",
+      "score": 0.7381
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "supplementary/clock",
+      "score": 0.6908
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [
+     "calendar"
+    ],
+    "icons": [
+     {
+      "id": "objects/calendar",
+      "score": 0.8153
+     }
+    ]
+   },
+   {
+    "label_index": 6,
+    "negated": false,
+    "glossary_terms": [
+     "nausea",
+     "sick person"
+    ],
+    "icons": [
+     {
+      "id": "conditions/nausea",
+      "score": 0.7605
+     }
+    ]
+   },
+   {
+    "label_index": 7,
+    "negated": false,
+    "glossary_terms": [
+     "calendar"
+    ],
+    "icons": [
+     {
+      "id": "symbols/i-schedule_school_date_time",
+      "score": 0.7699
+     }
+    ]
+   },
+   {
+    "label_index": 8,
+    "negated": false,
+    "glossary_terms": [
+     "pills",
+     "medication",
+     "checkmark"
+    ],
+    "icons": [
+     {
+      "id": "medications/medicines",
+      "score": 0.7096
+     }
+    ]
+   }
+  ],
+  "dev_process_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "health shield",
+     "risk analysis"
+    ],
+    "icons": [
+     {
+      "id": "symbols/risk-analysis",
+      "score": 0.74
+     },
+     {
+      "id": "symbols/health",
+      "score": 0.7328
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "insurance card",
+     "money"
+    ],
+    "icons": [
+     {
+      "id": "objects/insurance-card",
+      "score": 0.7153
+     },
+     {
+      "id": "objects/credit-card",
+      "score": 0.6751
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "medications/pills-4",
+      "score": 0.7489
+     },
+     {
+      "id": "medications/pills-3",
+      "score": 0.7401
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "people/exercise-yoga",
+      "score": 0.6258
+     },
+     {
+      "id": "exercise/exercise",
+      "score": 0.6257
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [
+     "test tube",
+     "laboratory test",
+     "HIV self test",
+     "rapid diagnostic test",
+     "laboratory"
+    ],
+    "icons": [
+     {
+      "id": "diagnostics/hiv-self_test",
+      "score": 0.8431
+     },
+     {
+      "id": "devices/clinical-a",
+      "score": 0.8234
+     }
+    ]
+   },
+   {
+    "label_index": 6,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "symbols/question",
+      "score": 0.7427
+     },
+     {
+      "id": "symbols/question-circle",
+      "score": 0.726
+     }
+    ]
+   }
+  ],
+  "dev_comparison_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "medications/pills-4",
+      "score": 0.81
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "medications/pill-1",
+      "score": 0.8648
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "home",
+     "house"
+    ],
+    "icons": [
+     {
+      "id": "places/home",
+      "score": 0.7886
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": true,
+    "glossary_terms": [
+     "injection",
+     "syringe"
+    ],
+    "icons": [
+     {
+      "id": "devices/syringe-vaccine",
+      "score": 0.8024
+     },
+     {
+      "id": "supplementary/no-sign",
+      "score": null
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug",
+     "injection",
+     "syringe"
+    ],
+    "icons": [
+     {
+      "id": "devices/syringe",
+      "score": 0.7812
+     }
+    ]
+   },
+   {
+    "label_index": 6,
+    "negated": false,
+    "glossary_terms": [
+     "calendar",
+     "appointment"
+    ],
+    "icons": [
+     {
+      "id": "objects/calendar",
+      "score": 0.7601
+     }
+    ]
+   },
+   {
+    "label_index": 7,
+    "negated": false,
+    "glossary_terms": [
+     "clinic",
+     "hospital"
+    ],
+    "icons": [
+     {
+      "id": "symbols/hospital-symbol",
+      "score": 0.7975
+     }
+    ]
+   },
+   {
+    "label_index": 8,
+    "negated": true,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "medications/medicines",
+      "score": 0.8782
+     },
+     {
+      "id": "supplementary/no-sign",
+      "score": null
+     }
+    ]
+   }
+  ],
+  "dev_list_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "medications/pills-4",
+      "score": 0.7876
+     },
+     {
+      "id": "medications/medicines",
+      "score": 0.7794
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "HIV self test",
+     "rapid diagnostic test"
+    ],
+    "icons": [
+     {
+      "id": "diagnostics/hiv-self_test",
+      "score": 0.8445
+     },
+     {
+      "id": "conditions/hiv-pos",
+      "score": 0.7636
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "condom"
+    ],
+    "icons": [
+     {
+      "id": "contraceptives/male-condom",
+      "score": 0.8041
+     },
+     {
+      "id": "contraceptives/contraceptive-voucher",
+      "score": 0.8039
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": true,
+    "glossary_terms": [
+     "syringe",
+     "needle"
+    ],
+    "icons": [
+     {
+      "id": "devices/syringe",
+      "score": 0.7994
+     },
+     {
+      "id": "devices/intravenous-bag",
+      "score": 0.7534
+     },
+     {
+      "id": "supplementary/no-sign",
+      "score": null
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug",
+     "clock",
+     "time"
+    ],
+    "icons": [
+     {
+      "id": "medications/pills-4",
+      "score": 0.6978
+     },
+     {
+      "id": "medications/pills-3",
+      "score": 0.6937
+     }
+    ]
+   },
+   {
+    "label_index": 6,
+    "negated": false,
+    "glossary_terms": [
+     "HIV negative",
+     "undetectable"
+    ],
+    "icons": [
+     {
+      "id": "conditions/hiv-neg",
+      "score": 0.8028
+     },
+     {
+      "id": "conditions/hiv-pos",
+      "score": 0.7791
+     }
+    ]
+   }
+  ],
+  "pilot_list_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "contraceptives/contraceptive-voucher",
+      "score": 0.819
+     },
+     {
+      "id": "contraceptives/male-condom",
+      "score": 0.8163
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": true,
+    "glossary_terms": [
+     "syringe",
+     "needle"
+    ],
+    "icons": [
+     {
+      "id": "devices/syringe",
+      "score": 0.7724
+     },
+     {
+      "id": "devices/intravenous-bag",
+      "score": 0.7355
+     },
+     {
+      "id": "supplementary/no-sign",
+      "score": null
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "medications/medicines",
+      "score": 0.8364
+     },
+     {
+      "id": "medications/pills-4",
+      "score": 0.8352
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug",
+     "clock",
+     "time"
+    ],
+    "icons": [
+     {
+      "id": "medications/pills-4",
+      "score": 0.7277
+     },
+     {
+      "id": "medications/pills-3",
+      "score": 0.7205
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [
+     "HIV self test",
+     "rapid diagnostic test"
+    ],
+    "icons": [
+     {
+      "id": "diagnostics/hiv-self_test",
+      "score": 0.8702
+     },
+     {
+      "id": "diagnostics/rdt-result",
+      "score": 0.7846
+     }
+    ]
+   },
+   {
+    "label_index": 6,
+    "negated": false,
+    "glossary_terms": [
+     "couple",
+     "people"
+    ],
+    "icons": [
+     {
+      "id": "people/male-and_female",
+      "score": 0.6867
+     },
+     {
+      "id": "people/female-and_male",
+      "score": 0.6809
+     }
+    ]
+   }
+  ]
+ }
+}
