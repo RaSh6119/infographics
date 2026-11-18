@@ -28,6 +28,8 @@ from infographics.harness.prompts import Prompt
 from .icons import COMMIT as ICON_INDEX_COMMIT
 from .icons import ROOT, Icon
 
+ELEMENTS_CATALOG_PATH = ROOT / "configs" / "elements_catalog.yaml"
+
 GLOSSARY_PATH = ROOT / "configs" / "icon_glossary.yaml"
 RETRIEVED_DIR = ROOT / "data" / "icons"
 TOTAL_ICONS = 15
@@ -158,5 +160,97 @@ def load_retrieved(directory: Path = RETRIEVED_DIR) -> dict[str, list[dict]]:
     """Candidates for every prompt with saved retrieval, keyed by prompt id."""
     merged: dict[str, list[dict]] = {}
     for path in sorted(directory.glob("retrieved_*.json")):
+        merged.update(json.loads(path.read_text(encoding="utf-8"))["prompts"])
+    return merged
+
+
+# --- Setup 3b: the project's elements first, Health Icons for what they don't cover -------------
+
+# An element is offered for a label only if it matches at least ELEMENTS_MIN_SCORE (cosine
+# similarity, same embedding model) AND comes within ELEMENTS_MARGIN of the label's best Health
+# Icon. Elements win ties and near-ties, but never displace a clearly better Health Icon: on the dev
+# set a fixed cut-off alone let a virus (0.76) beat the condom (0.85) for "Sex", because wrong
+# elements scored 0.72-0.81, about the same as good ones. Both values were set on the dev set only
+# and FROZEN 2026-11-18, with configs/elements_catalog.yaml, before any clinic retrieval. Do not
+# tune them on other prompt sets; a change is a new version and means rerunning setup 3b.
+# Known weak dev retrievals, left as they are rather than fitted to single phrases: "Injectable
+# PrEP" gets the empty pill bottle (the glossary adds pill words to any PrEP label), and "Given
+# in clinic" gets the plain person figure.
+ELEMENTS_MIN_SCORE = 0.70
+ELEMENTS_MARGIN = 0.02
+
+
+def _query(label: str, negated: bool, glossary: dict[str, list[str]]) -> tuple[str, list[str]]:
+    searched = NEGATIONS.sub("", label).strip() if negated else label
+    terms = glossary_terms(searched, glossary)
+    return ", ".join([searched, *terms]), terms
+
+
+def retrieve_elements_first(
+    prompts: Sequence[Prompt],
+    elements: dict[str, Icon],
+    fallback: dict[str, Icon],
+    embed: Embedder,
+    glossary: dict[str, list[str]],
+    no_sign_id: str,
+    min_score: float = ELEMENTS_MIN_SCORE,
+    margin: float = ELEMENTS_MARGIN,
+) -> dict[str, list[dict]]:
+    """Like retrieve(), but each label's slots go first to elements scoring at least `min_score`
+    and within `margin` of the label's best Health Icon, best first; slots left over go to the best
+    Health Icons. A negated label gets the elements' "no" sign on top, as in setup 3."""
+    element_pool = [icon for icon in elements.values() if icon.id != no_sign_id]
+    fallback_pool = [icon for icon in fallback.values()
+                     if icon.category not in EXCLUDED_CATEGORIES and icon.id != NO_SIGN_ID]
+    describe = lambda icon: f"{icon.description()}, {icon.category}"  # noqa: E731
+    element_vectors = embed([describe(icon) for icon in element_pool])
+    fallback_vectors = embed([describe(icon) for icon in fallback_pool])
+    has_no_sign = no_sign_id in elements
+    results: dict[str, list[dict]] = {}
+    for prompt in prompts:
+        labels = labels_of(prompt)
+        negated = {position for position, label in labels if has_no_sign and NEGATIONS.search(label)}
+        k = per_label(len(labels) + len(negated))
+        entries = []
+        for position, label in labels:
+            query, terms = _query(label, position in negated, glossary)
+            vector = embed([query])[0]
+            element_scores = element_vectors @ vector
+            fallback_scores = fallback_vectors @ vector
+            floor = max(min_score, float(fallback_scores.max()) - margin)
+            chosen = [{"id": element_pool[i].id, "score": round(float(element_scores[i]), 4)}
+                      for i in np.argsort(-element_scores) if element_scores[i] >= floor][:k]
+            chosen += [{"id": fallback_pool[i].id, "score": round(float(fallback_scores[i]), 4)}
+                       for i in np.argsort(-fallback_scores)[: k - len(chosen)]]
+            if position in negated:
+                chosen.append({"id": no_sign_id, "score": None})
+            entries.append({
+                "label_index": position,
+                "negated": position in negated,
+                "glossary_terms": terms,
+                "icons": chosen,
+            })
+        results[prompt.id] = entries
+    return results
+
+
+def elements_retrieved_path(prompts_file: str | Path) -> Path:
+    # Not "retrieved_*.json": load_retrieved() must not pick these up for setup 3.
+    return RETRIEVED_DIR / f"elements_retrieved_{Path(prompts_file).stem}.json"
+
+
+def build_elements_record(prompts_file: str | Path, results: dict, embedder_info: dict,
+                          elements_sha256: str, min_score: float = ELEMENTS_MIN_SCORE,
+                          margin: float = ELEMENTS_MARGIN) -> dict:
+    record = build_record(prompts_file, results, embedder_info)
+    record.update(setup="s3b_rag_elements", elements_sha256=elements_sha256,
+                  elements_min_score=min_score, elements_margin=margin,
+                  elements_catalog_sha256=hashlib.sha256(ELEMENTS_CATALOG_PATH.read_bytes()).hexdigest())
+    return record
+
+
+def load_elements_retrieved(directory: Path = RETRIEVED_DIR) -> dict[str, list[dict]]:
+    merged: dict[str, list[dict]] = {}
+    for path in sorted(directory.glob("elements_retrieved_*.json")):
         merged.update(json.loads(path.read_text(encoding="utf-8"))["prompts"])
     return merged

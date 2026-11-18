@@ -52,6 +52,8 @@ data/icons/*
 # the saved retrieval per prompt set (icon IDs and label positions only, no prompt text)
 !data/icons/index.json
 !data/icons/retrieved_*.json
+# Setup 3b retrieval (icon IDs only). The Elements PNGs and their index stay local.
+!data/icons/elements_retrieved_*.json
 # Supplementary Material Symbols icons (Apache 2.0, with their licence and notice)
 !data/icons/supplementary/
 data/training/*

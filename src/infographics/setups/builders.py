@@ -116,14 +116,80 @@ def rag_icons_postprocess(prompt: Prompt, html: str) -> tuple[str, dict[str, Any
     return result.html, result.log(offered_icons(prompt)), result.failures
 
 
+RAG_ELEMENTS_INTRO = (
+    "Icons you can use. IDs starting with elements/ are this project's own illustrations, drawn in "
+    "the house style; they keep their own colours, so the CSS color property does not change them. "
+    "The other IDs come from the Health Icons library and take their colour from the CSS color "
+    "property. For each label below, choose the icon that fits it best; if none fits, draw your own "
+    "symbol instead.\n"
+    'To place an icon, write an empty element such as <svg data-icon="ICON_ID" width="96" height="96" '
+    'style="color:#6283bb"></svg>: set its size and position as for any SVG. The icon itself is '
+    "filled in automatically. Use only the icon IDs listed here."
+)
+
+
+@lru_cache(maxsize=1)
+def _elements_and_icons():
+    """Elements and Health Icons in one lookup, for the setup 3b prompt and inlining."""
+    from infographics.rag.elements import load_elements
+
+    return {**_icons(), **load_elements()}
+
+
+@lru_cache(maxsize=1)
+def _elements_retrieved():
+    from infographics.rag.retrieve import load_elements_retrieved
+
+    return load_elements_retrieved()
+
+
+def _element_candidates(prompt: Prompt) -> list[dict]:
+    entries = _elements_retrieved().get(prompt.id)
+    if entries is None:
+        raise FileNotFoundError(
+            f"no elements retrieval for {prompt.id!r} in data/icons/elements_retrieved_*.json. Run: "
+            "python scripts/retrieve_icons.py --elements-first --prompts <its prompt file>"
+        )
+    return entries
+
+
+def rag_elements(prompt: Prompt) -> list[Message]:
+    icons = _elements_and_icons()
+    lines = [RAG_ELEMENTS_INTRO, ""]
+    for entry in _element_candidates(prompt):
+        label = prompt.required_text[entry["label_index"]]
+        options = ", ".join(f"{c['id']} ({icons[c['id']].title})" for c in entry["icons"])
+        lines.append(f"- {label}: {options}")
+    return [
+        {"role": "system", "content": load_system_prompt()},
+        {"role": "user", "content": f"{prompt.prompt}\n\n" + "\n".join(lines)},
+    ]
+
+
+def offered_elements(prompt: Prompt) -> list[str]:
+    return list(dict.fromkeys(c["id"] for e in _element_candidates(prompt) for c in e["icons"]))
+
+
+def rag_elements_postprocess(prompt: Prompt, html: str) -> tuple[str, dict[str, Any], list[Failure]]:
+    """As setup 3: swap placeholders for the real icons, and log which were used."""
+    from infographics.rag.inline import inline_icons
+
+    result = inline_icons(html, _elements_and_icons())
+    log = result.log(offered_elements(prompt))
+    log["elements_used"] = [i for i in log["icons_used"] if i.startswith("elements/")]
+    return result.html, log, result.failures
+
+
 SETUPS: dict[str, Builder] = {
     "s1_zero_shot": zero_shot,
     "s2_few_shot": few_shot,
     "s3_rag_icons": rag_icons,
+    "s3b_rag_elements": rag_elements,
 }
 
 # Steps applied to the extracted HTML before rendering, for setups that need one.
 Postprocessor = Callable[[Prompt, str], tuple[str, dict[str, Any], list[Failure]]]
 POSTPROCESSORS: dict[str, Postprocessor] = {
     "s3_rag_icons": rag_icons_postprocess,
+    "s3b_rag_elements": rag_elements_postprocess,
 }

@@ -1,0 +1,108 @@
+# Setup 3b: the project's own illustration elements (data/icons/Elements/, PNG, made for this
+# project in the reference pages' style). Retrieval matches labels against each element's title,
+# tags and category, so these descriptions say what each picture shows.
+#
+# Written from the images, 2026-11-18. After the first dev-set retrieval, tags that matched too
+# broadly were removed (dev set only, then frozen): "HIV" from the viruses (they matched every HIV
+# label), "PrEP" and "ART" from the pill and pill bottle (the glossary already maps PrEP to pills;
+# they pulled pills into "Injectable PrEP"), "Day", "Morning" and "Home" from the window.
+# FROZEN 2026-11-18 together with ELEMENTS_MIN_SCORE and ELEMENTS_MARGIN (rag/retrieve.py).
+# Changing anything here changes setup 3b: make it a new version and rerun the setup.
+# Left out on purpose:
+#   text_*.png                  pictures of words; text on a page must be real text
+#   icon_*-with-tick-mark.png   axis numbers (0, 200, ... 1,000): also text
+#   structure_blue-hrule.png    not a rule: a thumbnail of a whole infographic page
+#   icon_table.png              a dark rounded shape; unclear what it shows
+# scripts/build_elements_index.py fails if a PNG in the folder is neither listed here nor in
+# EXCLUDED below, so a new file can't be skipped silently.
+
+excluded:
+  - icon_0-with-tick-mark.png
+  - icon_1,000-with-tick-mark.png
+  - icon_200-with-tick-mark.png
+  - icon_400-with-tick-mark.png
+  - icon_600-with-tick-mark.png
+  - icon_800-with-tick-mark.png
+  - structure_blue-hrule.png
+  - icon_table.png
+
+elements:
+  # --- people and the body ---
+  - {file: icon_person.png, title: Person, category: people, tags: [Patient, Individual, Adult, Standing figure]}
+  - {file: icon_person-flexing-muscles.png, title: Person Flexing Muscles, category: people, tags: [Strong, Healthy, Strength, Fit]}
+  - {file: icon_person-flexing-muscles-and-smiling.png, title: Smiling Person Flexing Muscles, category: people, tags: [Healthy, Strong, Happy, Well, Thriving]}
+  - {file: icon_person-pointing-at-wrist.png, title: Person Pointing at Wrist, category: people, tags: [Time, On time, Reminder, Schedule, Daily]}
+  - {file: icon_person-with-spots.png, title: Person with Spots, category: people, tags: [Sick, Rash, Infection, Illness, Symptoms]}
+  - {file: icon_person-with-lung-cutout.png, title: Person with Lungs Showing, category: people, tags: [Lungs, Breathing, Body, Healthy lungs]}
+  - {file: icon_person-with-lung-cutout-contaminated.png, title: Person with Infected Lungs, category: people, tags: [Lung infection, Pneumonia, Tuberculosis, Sick, Opportunistic infection]}
+  - {file: icon_person-with-spots-and-lung-cutout.png, title: Person with Spots and Lungs Showing, category: people, tags: [Sick, Symptoms, Illness, Body]}
+  - {file: icon_person-with-spots-and-lung-cutout-contaminated.png, title: Very Sick Person with Infected Lungs, category: people, tags: [Advanced illness, AIDS, Opportunistic infection, Seriously ill]}
+  - {file: icon_head-with-coughing-face.png, title: Coughing Face, category: people, tags: [Cough, Sick, Unwell, Symptom]}
+  - {file: icon_head-with-coughing-face-and-ejecta.png, title: Person Coughing Germs, category: people, tags: [Cough, Spread, Airborne, Infection, Transmission]}
+  - {file: icon_hand-and-forearm.png, title: Hand and Forearm, category: body, tags: [Arm, Hand, Skin]}
+  - {file: icon_hand-and-forearm-with-ruptured-blood-vessel.png, title: Arm with Injection Site, category: body, tags: [Blood, Vein, Injection, Blood draw, Needle mark]}
+  - {file: icon_superman-pentagon.png, title: Letter U Badge, category: symbols, tags: [Undetectable, U=U, Superhero, Strong]}
+
+  # --- cells, germs and the immune system ---
+  - {file: icon_boxer-CD4-side-labeled.png, title: CD4 Cell with Boxing Glove, category: immune system, tags: [CD4, Immune cell, T cell, Defend, Fight, Immune system]}
+  - {file: icon_boxer-CD4-top-labeled.png, title: CD4 Cell with Two Boxing Gloves, category: immune system, tags: [CD4, Immune cell, T cell, Defend, Fight, Strong immune system]}
+  - {file: icon_boxer-side.png, title: Immune Cell with Boxing Glove, category: immune system, tags: [Immune cell, Defend, Fight, Protection]}
+  - {file: icon_boxer-top.png, title: Immune Cell with Two Boxing Gloves, category: immune system, tags: [Immune cell, Defend, Fight, Protection]}
+  - {file: icon_boxing-glove-palm-away.png, title: Boxing Glove, category: immune system, tags: [Fight, Defend, Punch, Protection]}
+  - {file: icon_boxing-glove-palm-facing.png, title: Boxing Glove Facing, category: immune system, tags: [Fight, Defend, Protection]}
+  - {file: icon_boxing-glove-with-arm-side.png, title: Boxing Glove on Arm, category: immune system, tags: [Fight, Defend, Punch]}
+  - {file: icon_boxing-glove-with-arm-top-left.png, title: Raised Boxing Glove Left, category: immune system, tags: [Fight, Defend]}
+  - {file: icon_boxing-glove-with-arm-top-right.png, title: Raised Boxing Glove Right, category: immune system, tags: [Fight, Defend]}
+  - {file: icon_virus-hiv.png, title: HIV Virus, category: germs, tags: [Virus, Infection, Viral load]}
+  - {file: icon_virus-purple.png, title: Virus, category: germs, tags: [Virus, Infection, Germ]}
+  - {file: icon_virus-blue.png, title: Virus Blue, category: germs, tags: [Virus, Germ, Infection]}
+  - {file: icon_virus-flu.png, title: Flu Virus, category: germs, tags: [Flu, Influenza, Virus, Germ]}
+  - {file: icon_bacterium-labeled.png, title: Bacteria Labeled, category: germs, tags: [Bacteria, Germ, Infection, Sexually transmitted infection]}
+  - {file: icon_bacterium-unlabeled.png, title: Bacterium, category: germs, tags: [Bacteria, Germ, Infection]}
+  - {file: icon_cough-ejecta.png, title: Cough Spray, category: germs, tags: [Droplets, Airborne, Spread, Germs]}
+
+  # --- medication ---
+  - {file: icon_pill.png, title: Pill, category: medication, tags: [Medicine, Tablet, Capsule, Treatment, Dose]}
+  - {file: icon_bottle-with-pill.png, title: Pill Bottle with Pill, category: medication, tags: [Medication, Prescription, Medicine, Refill]}
+  - {file: icon_bottle.png, title: Pill Bottle, category: medication, tags: [Medication, Prescription, Medicine, Refill]}
+  - {file: icon_pill-organizer.png, title: Pill Organizer, category: medication, tags: [Pill box, Weekly, Daily dose, Adherence, Routine]}
+  - {file: icon_baggie-with-pill.png, title: Bag with Pill, category: medication, tags: [Carry medication, Travel, Spare dose, Pill bag]}
+  - {file: icon_baggie.png, title: Small Bag, category: medication, tags: [Pouch, Carry, Bag]}
+
+  # --- time and reminders ---
+  - {file: icon_alarm-clock.png, title: Alarm Clock, category: time, tags: [Reminder, Time, Alarm, Schedule, Hours, Urgent]}
+  - {file: icon_watch.png, title: Wristwatch, category: time, tags: [Time, Watch, Reminder, Schedule]}
+  - {file: icon_bell.png, title: Bell, category: time, tags: [Reminder, Alert, Notification, Alarm]}
+  - {file: icon_phone.png, title: Mobile Phone, category: daily life, tags: [Phone, Call, App, Reminder, Telehealth, Contact]}
+  - {file: icon_moon.png, title: Moon, category: time, tags: [Night, Bedtime, Evening]}
+  - {file: icon_window-with-moon-and-stars.png, title: Window at Night, category: time, tags: [Night, Bedtime, Evening, Sleep]}
+  - {file: icon_window.png, title: Window, category: time, tags: [Window, Indoors]}
+  - {file: icon_star.png, title: Star, category: symbols, tags: [Highlight, Important, Night]}
+
+  # --- daily life ---
+  - {file: icon_bed.png, title: Bed, category: daily life, tags: [Sleep, Bedtime, Bedroom, Rest, Sex]}
+  - {file: icon_toothbrush.png, title: Toothbrush, category: daily life, tags: [Morning routine, Daily habit, Bathroom]}
+  - {file: icon_deodorant.png, title: Deodorant, category: daily life, tags: [Morning routine, Daily habit, Bathroom]}
+  - {file: icon_glass-of-water.png, title: Glass of Water, category: daily life, tags: [Water, Drink, Take with water, Hydration]}
+  - {file: icon_glass-cup.png, title: Empty Glass, category: daily life, tags: [Glass, Cup, Drink]}
+  - {file: icon_apple.png, title: Apple, category: food, tags: [Food, Healthy eating, Nutrition, Fruit]}
+  - {file: icon_apple-on-plate.png, title: Apple on Plate, category: food, tags: [Meal, Food, Take with food, Eating]}
+  - {file: icon_backpack.png, title: Backpack, category: daily life, tags: [Travel, Carry, School, Bag]}
+  - {file: icon_purse.png, title: Handbag, category: daily life, tags: [Purse, Carry, Bag]}
+  - {file: icon_pocket.png, title: Pocket, category: daily life, tags: [Carry, Keep with you, Jeans pocket]}
+  - {file: icon_television.png, title: Television, category: daily life, tags: [TV, Show, Daily routine, Evening]}
+
+  # --- symbols ---
+  - {file: icon_no-sign.png, title: No Sign, category: symbols, tags: [No, Not allowed, Prohibited, Avoid, Don't]}
+  - {file: icon_valentine-heart.png, title: Heart, category: symbols, tags: [Love, Care, Partner, Relationship]}
+  - {file: icon_valentine-heart-hollow-unconnected.png, title: Heart Outline, category: symbols, tags: [Love, Care, Health, Heart frame]}
+  - {file: icon_burst.png, title: Starburst, category: symbols, tags: [Highlight, New, Important, Attention]}
+  - {file: icon_bolt.png, title: Lightning Bolt, category: symbols, tags: [Fast, Quick, Energy, Urgent]}
+  - {file: icon_soundwave.png, title: Sound Waves, category: symbols, tags: [Ringing, Sound, Alarm, Signal]}
+
+  # --- shapes for layout ---
+  - {file: structure_circle.png, title: Circle Outline, category: shapes, tags: [Frame, Bubble, Group, Container]}
+  - {file: structure_drop.png, title: Drop Outline, category: shapes, tags: [Blood, Blood drop, Fluid, Frame]}
+  - {file: structure_dotted-line.png, title: Dotted Line, category: shapes, tags: [Connector, Path, Link, Zoom]}
+  - {file: structure_speech_bubble.png, title: Speech Bubble, category: shapes, tags: [Talk, Speak, Conversation, Ask, Tell, Doctor]}
+  - {file: structure_gradient.png, title: Colour Scale Red to Green, category: shapes, tags: [Scale, Risk, Range, Low to high, Gradient, Meter]}

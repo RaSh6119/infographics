@@ -1,0 +1,567 @@
+{
+ "prompts_file": "clinic_set.jsonl",
+ "embedding": {
+  "model": "BAAI/bge-small-en-v1.5",
+  "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+  "sentence_transformers": "6.2.0"
+ },
+ "icon_index_commit": "2080c1b40e4829f2f4217e03bc22908b4e402f6b",
+ "glossary_sha256": "4d8c8075481cebc5003ab51fefa38c38a187abe0808a01b329f7c20f6f75e622",
+ "total_icons": 15,
+ "max_per_label": 3,
+ "excluded_categories": [
+  "typography"
+ ],
+ "prompts": {
+  "clinic_stat_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "couple",
+     "people",
+     "condom"
+    ],
+    "icons": [
+     {
+      "id": "contraceptives/contraceptive-voucher",
+      "score": 0.7984
+     },
+     {
+      "id": "contraceptives/family-planning",
+      "score": 0.7843
+     },
+     {
+      "id": "contraceptives/female-condom",
+      "score": 0.7838
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "HIV",
+     "ribbon",
+     "arrow down",
+     "decrease",
+     "shield with checkmark",
+     "protection",
+     "health shield",
+     "risk analysis"
+    ],
+    "icons": [
+     {
+      "id": "conditions/hiv-pos",
+      "score": 0.73
+     },
+     {
+      "id": "conditions/hiv-neg",
+      "score": 0.7294
+     },
+     {
+      "id": "conditions/ribbon",
+      "score": 0.7256
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "elements/pill",
+      "score": 0.7051
+     },
+     {
+      "id": "objects/prescription-document",
+      "score": 0.6928
+     },
+     {
+      "id": "medications/pill-1",
+      "score": 0.684
+     }
+    ]
+   }
+  ],
+  "clinic_timeline_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "HIV",
+     "ribbon"
+    ],
+    "icons": [
+     {
+      "id": "conditions/ribbon",
+      "score": 0.8374
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "couple",
+     "people",
+     "condom",
+     "syringe",
+     "needle"
+    ],
+    "icons": [
+     {
+      "id": "contraceptives/contraceptive-voucher",
+      "score": 0.7886
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "alarm clock",
+     "urgent"
+    ],
+    "icons": [
+     {
+      "id": "elements/alarm-clock",
+      "score": 0.8122
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill",
+      "score": 0.7683
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [
+     "clock",
+     "time"
+    ],
+    "icons": [
+     {
+      "id": "supplementary/clock",
+      "score": 0.7381
+     }
+    ]
+   },
+   {
+    "label_index": 6,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "supplementary/clock",
+      "score": 0.6908
+     }
+    ]
+   },
+   {
+    "label_index": 7,
+    "negated": false,
+    "glossary_terms": [
+     "calendar"
+    ],
+    "icons": [
+     {
+      "id": "symbols/i-schedule_school_date_time",
+      "score": 0.7699
+     }
+    ]
+   },
+   {
+    "label_index": 8,
+    "negated": false,
+    "glossary_terms": [
+     "pills",
+     "medication",
+     "checkmark"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill-organizer",
+      "score": 0.7042
+     }
+    ]
+   }
+  ],
+  "clinic_process_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "HIV",
+     "ribbon",
+     "kidney",
+     "test tube",
+     "laboratory"
+    ],
+    "icons": [
+     {
+      "id": "devices/urine-sample",
+      "score": 0.7998
+     },
+     {
+      "id": "diagnostics/hiv-self_test",
+      "score": 0.7979
+     },
+     {
+      "id": "devices/test-tubes",
+      "score": 0.7547
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill",
+      "score": 0.7755
+     },
+     {
+      "id": "elements/bottle",
+      "score": 0.7591
+     },
+     {
+      "id": "elements/baggie-with-pill",
+      "score": 0.7581
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "calendar",
+     "appointment"
+    ],
+    "icons": [
+     {
+      "id": "supplementary/calendar-check",
+      "score": 0.7668
+     },
+     {
+      "id": "objects/calendar",
+      "score": 0.7388
+     },
+     {
+      "id": "symbols/i-schedule_school_date_time",
+      "score": 0.7067
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": false,
+    "glossary_terms": [
+     "doctor",
+     "health worker",
+     "nausea",
+     "sick person"
+    ],
+    "icons": [
+     {
+      "id": "people/symptom",
+      "score": 0.7363
+     },
+     {
+      "id": "conditions/nausea",
+      "score": 0.6989
+     },
+     {
+      "id": "specialties/pharmacy-dept",
+      "score": 0.695
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "specialties/pharmacy-dept",
+      "score": 0.7417
+     },
+     {
+      "id": "medications/medicines",
+      "score": 0.7294
+     },
+     {
+      "id": "medications/pills-4",
+      "score": 0.7131
+     }
+    ]
+   }
+  ],
+  "clinic_comparison_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill",
+      "score": 0.8428
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill",
+      "score": 0.895
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "medications/pills-4",
+      "score": 0.7873
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug",
+     "injection",
+     "syringe"
+    ],
+    "icons": [
+     {
+      "id": "elements/bottle",
+      "score": 0.7956
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "contraceptives/contraceptive-injection",
+      "score": 0.693
+     }
+    ]
+   },
+   {
+    "label_index": 6,
+    "negated": false,
+    "glossary_terms": [
+     "injection",
+     "syringe",
+     "calendar",
+     "appointment"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill-organizer",
+      "score": 0.7247
+     }
+    ]
+   },
+   {
+    "label_index": 7,
+    "negated": false,
+    "glossary_terms": [
+     "injection",
+     "syringe",
+     "calendar",
+     "appointment"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill-organizer",
+      "score": 0.7062
+     }
+    ]
+   },
+   {
+    "label_index": 8,
+    "negated": false,
+    "glossary_terms": [
+     "doctor",
+     "health worker",
+     "injection"
+    ],
+    "icons": [
+     {
+      "id": "people/health-worker",
+      "score": 0.7978
+     }
+    ]
+   }
+  ],
+  "clinic_list_001": [
+   {
+    "label_index": 1,
+    "negated": false,
+    "glossary_terms": [],
+    "icons": [
+     {
+      "id": "contraceptives/contraceptive-voucher",
+      "score": 0.819
+     },
+     {
+      "id": "contraceptives/male-condom",
+      "score": 0.8163
+     }
+    ]
+   },
+   {
+    "label_index": 2,
+    "negated": true,
+    "glossary_terms": [
+     "syringe",
+     "needle"
+    ],
+    "icons": [
+     {
+      "id": "devices/syringe",
+      "score": 0.7724
+     },
+     {
+      "id": "devices/intravenous-bag",
+      "score": 0.7355
+     },
+     {
+      "id": "elements/no-sign",
+      "score": null
+     }
+    ]
+   },
+   {
+    "label_index": 3,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill",
+      "score": 0.864
+     },
+     {
+      "id": "elements/bottle",
+      "score": 0.8497
+     }
+    ]
+   },
+   {
+    "label_index": 4,
+    "negated": false,
+    "glossary_terms": [
+     "pill",
+     "tablet",
+     "medication",
+     "drug"
+    ],
+    "icons": [
+     {
+      "id": "elements/pill",
+      "score": 0.8319
+     },
+     {
+      "id": "elements/bottle",
+      "score": 0.8269
+     }
+    ]
+   },
+   {
+    "label_index": 5,
+    "negated": false,
+    "glossary_terms": [
+     "HIV self test",
+     "rapid diagnostic test"
+    ],
+    "icons": [
+     {
+      "id": "diagnostics/hiv-self_test",
+      "score": 0.8702
+     },
+     {
+      "id": "diagnostics/rdt-result",
+      "score": 0.7846
+     }
+    ]
+   },
+   {
+    "label_index": 6,
+    "negated": false,
+    "glossary_terms": [
+     "couple",
+     "people"
+    ],
+    "icons": [
+     {
+      "id": "people/male-and_female",
+      "score": 0.7156
+     },
+     {
+      "id": "people/female-and_male",
+      "score": 0.7119
+     }
+    ]
+   }
+  ]
+ },
+ "setup": "s3b_rag_elements",
+ "elements_sha256": "87ce89e0a4eb4cb7d206454180006170f431a807ed3f9a5cdb6b7bbd9ff02889",
+ "elements_min_score": 0.7,
+ "elements_margin": 0.02,
+ "elements_catalog_sha256": "a0b43a5b700e88549df55051e5a954e9e88a54cc9135fc1da9019f89ae891499"
+}
