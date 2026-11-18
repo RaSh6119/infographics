@@ -8,7 +8,7 @@
 //
 // Options:
 //   --prompts FILE   the prompt set the runs used (required); runs are found as
-//                    runs/<setup>__<model>__<file name without .jsonl>/
+//                    runs/<set>/<setup>__<model>__<set>/, where <set> is the file name without .jsonl
 //   --out FILE       the .docx to write (required). results/review/ is gitignored.
 //   --models A,B     model names as in the run folders (default: every model with runs for this set)
 //   --setups A,B     default: s1_zero_shot,s2_few_shot
@@ -50,10 +50,15 @@ const args = parseArgs(process.argv.slice(2));
 const SET = path.basename(args.prompts, ".jsonl");
 const SETUPS = args.setups.split(",");
 const SETUP_LABELS = { s1_zero_shot: "Setup 1: zero-shot", s2_few_shot: "Setup 2: few-shot",
-                       s3_rag_icons: "Setup 3: RAG + icons", s4_direct_image: "Setup 4: direct image" };
+                       s3_rag_icons: "Setup 3: RAG + icons",
+                       s3b_rag_elements: "Setup 3b: RAG + elements", s4_direct_image: "Setup 4: direct image" };
 const SETUP_DESCRIPTIONS = {
   s1_zero_shot: "system prompt (style guide in words) + the prompt.",
   s2_few_shot: "the same, plus 3 reference pages from the HIV treatment PDF (14E, 5E, 10E) as style examples.",
+  s3_rag_icons: "setup 1's inputs plus up to 15 Health Icons (and supplementary Material Symbols) retrieved " +
+    "for the prompt and grouped by label; the model places them by ID or draws its own symbols.",
+  s3b_rag_elements: "as setup 3, but each label is offered the project's own illustration elements first " +
+    "(when they match well enough), with Health Icons filling the remaining slots.",
 };
 const TYPE_NAMES = { statistical: "Statistical", timeline: "Timeline", process: "Process",
                      comparison: "Comparison", list: "List" };
@@ -70,16 +75,17 @@ const prompts = fs.readFileSync(promptsPath, "utf8").split("\n").filter((l) => l
 const titleOf = (p) => (p.prompt.match(/^Title: (.*)$/m) || [, p.id])[1];
 
 // Which models have runs for this prompt set, and their settings from run.json.
-const runDir = (setup, model) => path.join(ROOT, "runs", `${setup}__${model}__${SET}`);
+const SET_DIR = path.join(ROOT, "runs", SET);
+const runDir = (setup, model) => path.join(SET_DIR, `${setup}__${model}__${SET}`);
 const found = new Set();
-for (const dir of fs.existsSync(path.join(ROOT, "runs")) ? fs.readdirSync(path.join(ROOT, "runs")) : []) {
+for (const dir of fs.existsSync(SET_DIR) ? fs.readdirSync(SET_DIR) : []) {
   const [setup, model, set] = dir.split("__");
   if (set === SET && SETUPS.includes(setup)) found.add(model);
 }
 let MODELS = args.models ? args.models.split(",") : [...found];
 const rank = (m) => { const i = KNOWN_MODELS.findIndex(([name]) => name === m); return i < 0 ? 99 : i; };
 MODELS.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
-if (!MODELS.length) fail(`no runs found for ${SET} in runs/`);
+if (!MODELS.length) fail(`no runs found in runs/${SET}/`);
 
 function settingsOf(model) {
   for (const setup of SETUPS) {
@@ -99,9 +105,11 @@ function settingsOf(model) {
   return `${label(model)} (no runs found)`;
 }
 
-// Page layout: US Letter portrait, 0.5" margins, two 3.75" columns.
+// Page layout: US Letter portrait, 0.5" margins. Setups are columns; with a single setup and several
+// models, the models fill a two-column grid instead, so pages aren't one image each.
 const PAGE = { size: { width: 12240, height: 15840 }, margin: { top: 720, bottom: 720, left: 720, right: 720 } };
-const COL = Math.floor(10800 / SETUPS.length);
+const GRID = SETUPS.length === 1 && MODELS.length > 1;
+const COL = Math.floor(10800 / (GRID ? 2 : SETUPS.length));
 const IMG_W = Math.round((COL / 1440) * 96 * 0.9);  // 90% of the column, in pixels at 96 dpi
 const NAVY = "08344C";
 const thin = { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" };
@@ -120,6 +128,7 @@ function cell(children, shade) {
 
 function reasonOf(failure) {
   if (failure.kind === "broken_asset" && /fonts\.googleapis/.test(failure.detail)) return "loads Google Fonts from the web";
+  if (failure.kind === "broken_asset" && /unknown icon id/.test(failure.detail)) return "used an icon ID that doesn't exist";
   if (failure.kind === "blank") return "blank page";
   if (failure.kind === "no_html") return "reply had no HTML";
   return failure.kind.replace(/_/g, " ");
@@ -158,10 +167,11 @@ const bold = (text) => new TextRun({ text, bold: true });
 const coverLine = (key, text) => new Paragraph({ spacing: { after: 60 }, children: [bold(`${key}: `), new TextRun(text)] });
 
 const children = [
-  new Paragraph({ heading: HeadingLevel.TITLE, children: [new TextRun(args.title || `Setups 1 and 2 on ${SET}`)] }),
+  new Paragraph({ heading: HeadingLevel.TITLE, children: [new TextRun(args.title || `${SETUPS.length} setups on ${SET}`)] }),
   new Paragraph({ spacing: { after: 120 }, children: [new TextRun(
     `${prompts.length} prompts x ${MODELS.length} model${MODELS.length > 1 ? "s" : ""} x ${SETUPS.length} setups, ` +
-    `sample ${args.sample}. One page per prompt; ${MODELS.length > 1 ? "rows are models, " : ""}columns are setups.`)] }),
+    `sample ${args.sample}. Each prompt starts a new page; ` +
+    (GRID ? "models are shown two per row." : `${MODELS.length > 1 ? "rows are models, " : ""}columns are setups.`))] }),
   ...SETUPS.filter((s) => SETUP_DESCRIPTIONS[s]).map((s) => coverLine(SETUP_LABELS[s] || s, SETUP_DESCRIPTIONS[s])),
   coverLine("Prompts", path.relative(ROOT, promptsPath).replace(/\\/g, "/")),
   coverLine("Models", MODELS.length === 1 ? settingsOf(MODELS[0]) : ""),
@@ -178,6 +188,23 @@ prompts.forEach((prompt, i) => {
   children.push(new Paragraph({ spacing: { after: 120 }, children: [
     small(`${prompt.id}. Required text: ${prompt.required_text.join(" | ")}`)] }));
 
+  const modelHeader = (model) => cell([new Paragraph({ keepNext: true,
+    children: [new TextRun({ text: label(model), bold: true, size: 18, color: NAVY })] })], "EAF4F9");
+  if (GRID) {
+    const setup = SETUPS[0];
+    children.push(new Paragraph({ spacing: { after: 80 }, children: [
+      new TextRun({ text: SETUP_LABELS[setup] || setup, bold: true, size: 20, color: NAVY })] }));
+    const rows = [];
+    for (let m = 0; m < MODELS.length; m += 2) {
+      const pair = MODELS.slice(m, m + 2);
+      const blank = () => cell([new Paragraph("")]);
+      rows.push(new TableRow({ cantSplit: true, children: [...pair.map(modelHeader), ...(pair.length < 2 ? [blank()] : [])] }));
+      rows.push(new TableRow({ cantSplit: true, children: [...pair.map((model) => imageCell(model, setup, prompt)),
+                                                           ...(pair.length < 2 ? [blank()] : [])] }));
+    }
+    children.push(new Table({ width: { size: COL * 2, type: WidthType.DXA }, columnWidths: [COL, COL], rows }));
+    return;
+  }
   const rows = [new TableRow({ tableHeader: true, children: SETUPS.map((s) =>
     cell([new Paragraph({ alignment: AlignmentType.CENTER,
       children: [new TextRun({ text: SETUP_LABELS[s] || s, bold: true, color: "FFFFFF", size: 20 })] })], NAVY)) })];

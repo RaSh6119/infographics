@@ -1,7 +1,7 @@
 """Score harness runs on metric 4 (OCR text fidelity): one row per sample, plus a summary.
 
-    python scripts/score_runs.py                       # every run in runs/
-    python scripts/score_runs.py runs/s1_zero_shot__gpt-5.5__dev_set --out results/x.csv
+    python scripts/score_runs.py                       # every run in runs/<prompt set>/
+    python scripts/score_runs.py runs/dev_set/s1_zero_shot__gpt-5.5__dev_set --out results/x.csv
 
 Each sample is scored against the required text saved in its own record. A sample that did not
 render (no HTML, render error, blank page, broken asset...) scores 0, as the plan specifies: that
@@ -71,11 +71,11 @@ def score_run(run_dir: Path, reader: OcrReader) -> list[dict]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("runs", nargs="*", type=Path, help="run folders (default: all of runs/)")
+    parser.add_argument("runs", nargs="*", type=Path, help="run folders (default: all of runs/<prompt set>/)")
     parser.add_argument("--out", type=Path, default=ROOT / "results" / "ocr_runs.csv")
     args = parser.parse_args()
 
-    run_dirs = args.runs or sorted(p.parent for p in (ROOT / "runs").glob("*/run.json"))
+    run_dirs = args.runs or sorted(p.parent for p in (ROOT / "runs").glob("*/*/run.json"))
     if not run_dirs:
         sys.exit("no runs found")
 

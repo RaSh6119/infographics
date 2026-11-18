@@ -2,7 +2,7 @@
 
     python scripts/run_setup.py --setup s1_zero_shot --model configs/models/qwen3_5_9b.yaml
 
-Outputs go to runs/<setup>__<model>__<prompt set>/. Rerunning the same command continues an
+Outputs go to runs/<prompt set>/<setup>__<model>__<prompt set>/. Rerunning the same command continues an
 interrupted run. Changing the settings needs a new --run-name, so results are never mixed.
 """
 
@@ -57,7 +57,7 @@ def main() -> None:
         run_name += f"__first{args.limit}"
     system_prompt = SYSTEM_PROMPT_PATH.read_bytes()
     logger = RunLogger(
-        ROOT / "runs" / run_name,
+        ROOT / "runs" / args.prompts.stem / run_name,
         {
             "setup": args.setup,
             "model": model_config["name"],

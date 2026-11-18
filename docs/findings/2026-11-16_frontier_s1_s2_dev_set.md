@@ -117,6 +117,45 @@ renders above used fallback fonts for Poppins. Scores: `results/ocr_qwen_dev_set
 - First test page (Claude Opus 5.5, dev_stat_001): 5 icons placed (4 distinct) of 13 offered, none
   invented; all required text present.
 
+## Setup 3: all 5 models (dev set; icon use counted over dev + clinic, 11 pages each)
+
+Scores: `results/ocr_s3_dev_set.csv`. Official score (as-rendered in brackets where they differ).
+
+| Model | Rendered OK | Text fidelity | Phrase recall | Pages with all text | Icons placed / distinct used / offered (11 pages) | Invented IDs |
+|---|---|---|---|---|---|---|
+| Claude Opus 5.5 | 6/6 | 1.000 | 1.000 | 6/6 | 70 / 62 / 109 | 0 |
+| Gemini 3.1 Pro | 6/6 | 0.999 | 0.981 | 5/6 | 66 / 58 / 109 | 0 |
+| GPT-5.5 | 6/6 | 0.990 | 0.934 | 3/6 | **0 / 0 / 109** | 0 |
+| Qwen3.5-9B | 0/6 | 0 (0.896) | 0 (0.754) | 0/6 (3/6) | 45 / 41 / 109 | 2 |
+| Gemma 4 E4B | 0/6 | 0 (1.000) | 0 (1.000) | 0/6 (6/6) | 68 / 58 / 109 | 3 |
+
+- **GPT-5.5 placed no icons on any of its 11 pages.** The icon list was in every request; it drew
+  every symbol itself, which the setup allows ("if none fits, draw your own"). Likely because the
+  system prompt asks for a self-contained file and an empty placeholder only works via our inlining
+  step. So for GPT-5.5, setup 3 is in effect setup 1 with a longer prompt.
+- Claude, Gemini and Gemma used the icons heavily (about 6 per page), all from the offered lists,
+  including the supplementary clock, alarm clock, shield and "no" sign (8-10 uses each).
+- Gemma again loads Google Fonts on every page (official score 0), and on one clinic page used icon
+  titles instead of IDs ("Contraceptive", "HIV", "Pill 4"). Qwen also loads Google Fonts on every
+  setup 3 page and mistyped `pills-4` as `pill-4` twice.
+- Real layout defects, checked by eye: GPT-5.5's pilot-list title runs off the page (as in setup 1);
+  Gemini places a pill icon over the end of the timeline title.
+
+## Setup 3: Qwen3.5-9B (workstation), dev set
+
+Scores: `results/ocr_qwen_s3_dev_set.csv`. All 6 pages load Google Fonts, so all officially score 0
+(as in setup 1, which setup 3 resembles: no reference pages). As rendered: text fidelity 0.896,
+phrase recall 0.754, 3/6 pages with all text (setup 1: 0.900 / 0.746 / 2/6).
+
+- Icons were used on every dev page: 3 to 9 placed per page, nearly all from the offered list.
+- Two pages (here and on the clinic set) wrote `medications/pill-4` for the offered
+  `medications/pills-4`: an invented ID, so also a broken asset.
+- Comparison page: much better than Qwen's setup 2 version; all labels present, and it combined
+  the syringe and pills with the "no" sign for "No injections needed" and "No daily pills".
+- Process page: sensible icons, but Qwen styled them with its own CSS so they render black with blue
+  outlines rather than in the palette, and a vertical line runs through every label.
+- Pilot list: a navy rectangle covers most of the page and only 2 of 6 cards are visible.
+
 ## Caveats
 
 - 6 pages per model and setup, 1 sample each: early signals, not results.

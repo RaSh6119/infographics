@@ -86,7 +86,7 @@ Every line should say PASS. WARN on API keys is fine for Qwen. Fix any FAIL befo
 python scripts/run_setup.py --setup s1_zero_shot --model configs/models/qwen3_5_9b.yaml --limit 1 --samples 1
 ```
 
-Open the `render.png` it reports under `runs/`. If it looks reasonable, note how long it took: the
+Open the `render.png` it reports under `runs/<prompt set>/`. If it looks reasonable, note how long it took: the
 full runs below are 6 times that, per setup.
 
 ## 7. The real runs

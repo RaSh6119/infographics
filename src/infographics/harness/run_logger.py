@@ -1,6 +1,6 @@
 """Save everything the plan requires for each run, in a form that can be resumed and reviewed.
 
-    runs/<run_name>/
+    runs/<prompt set>/<run_name>/
         run.json                    config and environment, written once
         <prompt_id>/sample_<n>/
             record.json             written last, so its presence means the sample is complete

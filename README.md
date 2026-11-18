@@ -25,7 +25,7 @@ src/infographics/
   setups/           s1_zero_shot, s2_few_shot, s3_rag_icons, s4_direct_image, s5_hybrid, s6_rl_finetune
 scripts/            Entry points for running and scoring
 models/             Downloaded weights (not tracked)
-runs/               Output, render and logs for each run (not tracked)
+runs/<prompt set>/  Output, render and logs for each run (not tracked)
 results/            Aggregated tables and figures
 notebooks/          Analysis
 tests/              Harness and metric tests
@@ -70,11 +70,11 @@ with this stack.
 ## Running and reviewing
 
 ```bash
-# generate: one setup, one model, one prompt set (outputs go to runs/)
+# generate: one setup, one model, one prompt set (outputs go to runs/<prompt set>/)
 python scripts/run_setup.py --setup s1_zero_shot --model configs/models/gpt5_5.yaml --prompts data/prompts/dev_set.jsonl
 
 # score metric 4 (OCR): official score plus the as-rendered diagnostic
-python scripts/score_runs.py runs/s1_zero_shot__gpt-5.5__dev_set --out results/ocr_gpt_dev.csv
+python scripts/score_runs.py runs/dev_set/s1_zero_shot__gpt-5.5__dev_set --out results/ocr_gpt_dev.csv
 
 # Word file for review: one page per prompt, models as rows, setups as columns
 npm install                       # once (Node.js 18+), installs the docx library
