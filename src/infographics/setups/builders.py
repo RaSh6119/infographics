@@ -40,21 +40,47 @@ def zero_shot(prompt: Prompt) -> list[Message]:
     ]
 
 
-def few_shot(prompt: Prompt) -> list[Message]:
-    paths = [FEW_SHOT_DIR / name for name in FEW_SHOT_IMAGES]
+def _few_shot_messages(prompt: Prompt, intro: str, images: list[str]) -> list[Message]:
+    paths = [FEW_SHOT_DIR / name for name in images]
     missing = [path.name for path in paths if not path.exists()]
     if missing:
         raise FileNotFoundError(
             f"few-shot reference images missing from {FEW_SHOT_DIR}: {missing}. They are not in git; "
             "copy them over from the laptop."
         )
-    content = [{"type": "text", "text": FEW_SHOT_INTRO}]
+    content = [{"type": "text", "text": intro}]
     content += [{"type": "image", "path": str(path)} for path in paths]
     content += [{"type": "text", "text": prompt.prompt}]
     return [
         {"role": "system", "content": load_system_prompt()},
         {"role": "user", "content": content},
     ]
+
+
+def few_shot(prompt: Prompt) -> list[Message]:
+    return _few_shot_messages(prompt, FEW_SHOT_INTRO, FEW_SHOT_IMAGES)
+
+
+# Setup 2b (2026-11-19): the comparison treatment page is swapped for a prevention page, a six-card
+# list of prevention strategies, which is shown last. The user chose that its look wins where it
+# differs from the written style rules. Its topic matches clinic_list_001, so that prompt must not
+# be run with this setup (run_setup.py --prompt-ids).
+FEW_SHOT_B_IMAGES = ["statistical_14E.png", "process_5E.png", "list_prevention_strategies.png"]
+FEW_SHOT_B_EXCLUDED_PROMPTS = {"clinic_list_001"}
+
+FEW_SHOT_B_INTRO = (
+    "These three reference infographics show the visual style to follow. The first two are about HIV "
+    "treatment and show how people, objects and symbols are drawn and which colours are used for "
+    "what. The third, about HIV prevention, shows the overall look to aim for: where it differs from "
+    "the first two pages or from the style rules in the system prompt, follow the third page. Do not "
+    "copy their text, topics or layouts."
+)
+
+
+def few_shot_b(prompt: Prompt) -> list[Message]:
+    if prompt.id in FEW_SHOT_B_EXCLUDED_PROMPTS:
+        raise ValueError(f"{prompt.id} matches a setup 2b reference page; leave it out of this setup")
+    return _few_shot_messages(prompt, FEW_SHOT_B_INTRO, FEW_SHOT_B_IMAGES)
 
 
 RAG_ICONS_INTRO = (
@@ -183,6 +209,7 @@ def rag_elements_postprocess(prompt: Prompt, html: str) -> tuple[str, dict[str, 
 SETUPS: dict[str, Builder] = {
     "s1_zero_shot": zero_shot,
     "s2_few_shot": few_shot,
+    "s2b_few_shot_prevention": few_shot_b,
     "s3_rag_icons": rag_icons,
     "s3b_rag_elements": rag_elements,
 }

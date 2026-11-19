@@ -113,4 +113,14 @@ def test_few_shot_explains_missing_images(monkeypatch, tmp_path):
 
 
 def test_setups_registered():
-    assert set(SETUPS) == {"s1_zero_shot", "s2_few_shot", "s3_rag_icons"}
+    assert set(SETUPS) == {"s1_zero_shot", "s2_few_shot", "s2b_few_shot_prevention", "s3_rag_icons",
+                           "s3b_rag_elements"}
+
+
+def test_setup_2b_swaps_the_comparison_page_and_refuses_the_matching_prompt():
+    from infographics.setups import builders
+    assert builders.FEW_SHOT_B_IMAGES[:2] == builders.FEW_SHOT_IMAGES[:2]
+    assert "comparison_10E.png" not in builders.FEW_SHOT_B_IMAGES
+    clash = PROMPTS[0].__class__("clinic_list_001", "list", "Title: T", ("T",))
+    with pytest.raises(ValueError, match="leave it out"):
+        builders.few_shot_b(clash)

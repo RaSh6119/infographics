@@ -50,11 +50,14 @@ const args = parseArgs(process.argv.slice(2));
 const SET = path.basename(args.prompts, ".jsonl");
 const SETUPS = args.setups.split(",");
 const SETUP_LABELS = { s1_zero_shot: "Setup 1: zero-shot", s2_few_shot: "Setup 2: few-shot",
+                       s2b_few_shot_prevention: "Setup 2b: few-shot + prevention page",
                        s3_rag_icons: "Setup 3: RAG + icons",
                        s3b_rag_elements: "Setup 3b: RAG + elements", s4_direct_image: "Setup 4: direct image" };
 const SETUP_DESCRIPTIONS = {
   s1_zero_shot: "system prompt (style guide in words) + the prompt.",
   s2_few_shot: "the same, plus 3 reference pages from the HIV treatment PDF (14E, 5E, 10E) as style examples.",
+  s2b_few_shot_prevention: "as setup 2, but the comparison treatment page is replaced by a six-card HIV " +
+    "prevention strategies page, whose look the model is told to follow where styles differ.",
   s3_rag_icons: "setup 1's inputs plus up to 15 Health Icons (and supplementary Material Symbols) retrieved " +
     "for the prompt and grouped by label; the model places them by ID or draws its own symbols.",
   s3b_rag_elements: "as setup 3, but each label is offered the project's own illustration elements first " +

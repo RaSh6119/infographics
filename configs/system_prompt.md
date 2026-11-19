@@ -19,7 +19,7 @@ Follow this style. It describes how things should look, not a fixed layout, so c
 - Background: plain white, with generous empty space. No panels with shadows, textures or gradients behind content.
 - Title: sentence case, bold, navy #08344c, about 56 px, at the top left, with a sky-blue #51b4d6 underline that stops just past the end of the title.
 - Labels: navy #08344c, semi-bold, 18-26 px, centred under or beside their symbol.
-- Fonts: font-family "Poppins", "Inter", Arial, sans-serif.
+- Fonts: font-family Arial, sans-serif.
 - Symbols carry the meaning and the text labels them. Draw flat pictograms with simple SVG shapes: solid fills, no gradients on objects, no 3D, no photos.
 - People are faceless figures in mid gray #b3b3b3 with round heads, shown only by posture. Use colour on a person only to show a state, such as illness.
 - Use thin navy #08344c outlines for containers such as circles and tables.

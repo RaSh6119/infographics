@@ -1,0 +1,16 @@
+# Qwen3.8-27B (official Qwen repo, Apache 2.0, image + text input) served by vLLM on the
+# RTX PRO 6000 Blackwell 96 GB workstation. See docs/workstation_runbook.md.
+# Settings match qwen3_5_9b.yaml so the two compare cleanly: BF16, thinking off, the shared
+# temperature (0.2) and no presence/repetition penalty, although the card recommends
+# temperature 0.7 and presence_penalty 1.5 for non-thinking mode.
+name: qwen3.8-27b
+backend: openai_compatible
+model: Qwen/Qwen3.8-27B
+# Hugging Face commit (2026-11-07), pinned for reproducibility. vLLM must be started with the same --revision.
+checkpoint: 37561816e66b5b9153b1b64c10968c18c1e6f4a0
+quantization: null  # full BF16 weights (~56 GB); not the -FP8 repo
+base_url: http://localhost:8000/v1
+max_tokens: 16384
+extra_body:
+  chat_template_kwargs:
+    enable_thinking: false

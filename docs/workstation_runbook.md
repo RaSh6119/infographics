@@ -51,6 +51,14 @@ CUDA_VISIBLE_DEVICES=0 vllm serve Qwen/Qwen3.5-9B \
 must match `checkpoint` in `configs/models/qwen3_5_9b.yaml`. Leave this running and wait for
 `Application startup complete`.
 
+**Qwen3.8-27B** (`configs/models/qwen3_8_27b.yaml`): stop the 9B server first (both don't fit in
+memory). The model card asks for a recent vLLM; if serving fails on an unknown architecture,
+upgrade vLLM in `~/vllm-env` and record the version used. One line each, for pasting via Slack:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 vllm serve Qwen/Qwen3.8-27B --revision 37561816e66b5b9153b1b64c10968c18c1e6f4a0 --port 8000 --max-model-len 32768
+```
+
 ## 4. Set up the harness (terminal 2)
 
 ```bash

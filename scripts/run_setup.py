@@ -43,12 +43,20 @@ def main() -> None:
     parser.add_argument("--samples", type=int, default=SAMPLES)
     parser.add_argument("--limit", type=int, help="only the first N prompts, for a quick test")
     parser.add_argument("--run-name", help="defaults to <setup>__<model>__<prompt set>")
+    parser.add_argument("--prompt-ids", help="comma-separated prompt ids to run (default: all)")
     args = parser.parse_args()
 
     load_dotenv(ROOT / ".env")
     model_config = load_model_config(args.model)
     temperature = temperature_for(model_config, TEMPERATURE)
-    prompts = load_prompts(args.prompts)[: args.limit]
+    prompts = load_prompts(args.prompts)
+    if args.prompt_ids:
+        wanted = args.prompt_ids.split(",")
+        unknown = set(wanted) - {p.id for p in prompts}
+        if unknown:
+            parser.error(f"--prompt-ids not in {args.prompts.name}: {sorted(unknown)}")
+        prompts = [p for p in prompts if p.id in wanted]
+    prompts = prompts[: args.limit]
     build_messages = SETUPS[args.setup]
     build_messages(prompts[0])  # fail now, not mid-run, if inputs such as reference images are missing
 
@@ -68,6 +76,7 @@ def main() -> None:
             "model_config": model_config,
             "system_prompt_sha256": hashlib.sha256(system_prompt).hexdigest(),
             "prompts_file": args.prompts.name,
+            "prompt_ids": args.prompt_ids,  # None = the whole file
         },
     )
 
