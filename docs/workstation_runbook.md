@@ -47,7 +47,7 @@ CUDA_VISIBLE_DEVICES=0 vllm serve Qwen/Qwen3.5-9B \
     --port 8000 --max-model-len 32768
 ```
 
-`CUDA_VISIBLE_DEVICES=0` uses the first H100 only, which leaves the second free. The `--revision`
+`CUDA_VISIBLE_DEVICES=0` uses the first GPU only, which leaves any others free. The `--revision`
 must match `checkpoint` in `configs/models/qwen3_5_9b.yaml`. Leave this running and wait for
 `Application startup complete`.
 
@@ -56,8 +56,13 @@ memory). The model card asks for a recent vLLM; if serving fails on an unknown a
 upgrade vLLM in `~/vllm-env` and record the version used. One line each, for pasting via Slack:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 vllm serve Qwen/Qwen3.8-27B --revision 37561816e66b5b9153b1b64c10968c18c1e6f4a0 --port 8000 --max-model-len 32768
+CUDA_VISIBLE_DEVICES=0 vllm serve Qwen/Qwen3.8-27B --revision 37561816e66b5b9153b1b64c10968c18c1e6f4a0 --port 8000 --max-model-len 32768 --max-num-seqs 16
 ```
+
+`--max-num-seqs 16` is needed: Qwen3.8 is a hybrid (Mamba-style) model, and vLLM's default of 1,024
+parallel sequences needs more state blocks than fit next to the weights (start-up fails with
+"max_num_seqs (1024) exceeds available Mamba cache blocks"). The harness sends one request at a
+time, so this does not change outputs.
 
 ## 4. Set up the harness (terminal 2)
 
